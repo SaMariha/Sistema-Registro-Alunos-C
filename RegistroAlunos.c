@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
+int EntradaDadosBusca(int escolhaBuscaExclusao, char **nomeAluno,char **matriculaAluno,int contQuantidadeAlunos,char **nascimentoAluno,char **cursoAluno);
 char *registrar(char **dado, char *tipoDado, int indice);
 int buscar(char **dadoNome, char **dadoMatricula, int indice, char *dadoDaBusca, int escolhaNomeMatricula);//busca no bancos de dados
 char* editar(int dadoEditar, int indice,char **dadoNome, char **dadoMatricula, char **dadoNascimento, char **dadoCurso);
@@ -21,28 +21,24 @@ int main(int argc, char *argv[]) {
     int maximoRegistros = 15; // Limite de registros
     char *tipoDado; // Variável para armazenar o tipo de dado que está sendo registrado
     int contQuantidadeAlunos = 0; // Contador para a quantidade de alunos registrados
-    int i=0; // Variável para iteração
     char continuar[2]; // Variável para armazenar a escolha do usuário para continuar ou não
     int indice=0; // Variável para armazenar o índice atual do array dos alunos
     int escolhaBuscaExclusao=0; // Variável para armazenar a escolha do usuário de procurar pelo nome ou matricula ao buscar ou excluir
-    char matricula[15]; // Variável para armazenar a matrícula do aluno
-    char nome[30]; //   Variável para armazenar o nome do aluno
     int dadoEditar=0; // Variável para armazenar a escolha do usuário de qual dado editar
     int matriculaInicial = 25664874; // Variável para armazenar o número inicial das matrículas dos alunos
     int resultado=0;//variável que vai contar o resultado do indice da busca
+    int i=0;//variável de iteração
 
     AlocarMemoria(maximoRegistros, nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno);
     
     //menu de opções
 	do{
-        printf("Informacoes importantes para utilizacao do sistema: Nao sao aceitos caracteres especiais e se deve respeitar letras maiuscular e minusculas n\n");
+        printf("Informacoes importantes para utilizacao do sistema: Nao sao aceitos caracteres especiais e se deve respeitar letras maiusculas e minusculas.\n");
         printf("Digite a opcao que voce deseja: \n1: Registrar novos alunos.\n2: Buscar aluno pelo nome ou matricula.\n3: Excluir algum aluno pelo nome ou matricula.\n4: Listar todos os alunos.\n5: Editar dados do aluno pelo nome ou matricula.\n6: Sair.\n");
         scanf("%d", &servico);
-
         getchar();
-        
+    
         switch (servico) {
-            
                 case 1:
                     if (contQuantidadeAlunos < maximoRegistros) {
                         printf("\nVoce escolheu Registrar novos alunos.\n");
@@ -58,61 +54,33 @@ int main(int argc, char *argv[]) {
                 case 2:
                     printf("\nVoce escolheu buscar alunos. Digite 1 para inserir a matricula e 2 para inserir o nome\n");
                     scanf("%d", &escolhaBuscaExclusao);
-                    
-                    if(escolhaBuscaExclusao==1){
-                        printf("Digite a matricula: \n");
-                        getchar(); // Limpa o buffer do teclado
-                        fgets(matricula, sizeof(matricula), stdin); // Lê a matricula incluindo espaços em branco
-                        matricula[strcspn(matricula, "\n")] = '\0'; // Remove o caractere de nova linha
-                        resultado = buscar(nomeAluno, matriculaAluno, contQuantidadeAlunos, matricula, escolhaBuscaExclusao);
-                        if(resultado == -1){
-                            printf("Aluno não encontrado\n");
-                        }else{
-                            printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
-                        }
-                    }else if(escolhaBuscaExclusao==2){
-                        printf("Digite o nome: \n");
-                        getchar(); // Limpa o buffer do teclado
-                        fgets(nome, sizeof(nome), stdin); // Lê o nome incluindo espaços em branco
-                        nome[strcspn(nome, "\n")] = '\0'; 
-                        resultado=buscar(nomeAluno, matriculaAluno,contQuantidadeAlunos,nome,escolhaBuscaExclusao);
+                    resultado=EntradaDadosBusca(escolhaBuscaExclusao,nomeAluno,matriculaAluno,contQuantidadeAlunos,nascimentoAluno,cursoAluno);
+                    if(escolhaBuscaExclusao==1 || escolhaBuscaExclusao==2){
                         if(resultado==-1){
-                            printf("Aluno não encontrado");
+                            printf("Aluno não encontrado no banco de dados. Por favor verifique as informacoes\n");
                         }else{
-                            printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
+                        printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
                         }
                     }else{
-                        printf("Opcao invalida");
+                        printf("Opcao invalida!Por favor tente novamente\n");
                     }
                 break;
+
                 case 3:
                     printf("\nVoce escolheu excluir o registro de um aluno. Digite 1 para inserir a matricula e 2 para inserir o nome do aluno desejado\n");
                     scanf("%d", &escolhaBuscaExclusao);
-                    if(escolhaBuscaExclusao==1){
-                        printf("Digite a matricula: \n");
-                        getchar(); // Limpa o buffer do teclado
-                        fgets(matricula, sizeof(matricula), stdin); // Lê a matricula incluindo espaços em branco
-                        matricula[strcspn(matricula, "\n")] = '\0'; // Remove o caractere de nova linha
-                        resultado=buscar(nomeAluno, matriculaAluno,contQuantidadeAlunos,matricula, escolhaBuscaExclusao);
+                    resultado=EntradaDadosBusca(escolhaBuscaExclusao,nomeAluno,matriculaAluno,contQuantidadeAlunos,nascimentoAluno,cursoAluno);
+                    if(escolhaBuscaExclusao==1 || escolhaBuscaExclusao==2){
                         if(resultado==-1){
-                            printf("Aluno não encontrado no banco de dados. Por favor verifique as informacoes.\n");
-                        }else{  
-                            printf("Matricula %s: %s, data de nascimento: %s, curso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
-                            contQuantidadeAlunos = excluir(nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno,resultado,contQuantidadeAlunos);
+                            printf("Aluno não encontrado no banco de dados. Por favor verifique as informacoes\n");
+                        }else{
+                        printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
+                        contQuantidadeAlunos = excluir(nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno,resultado,contQuantidadeAlunos);
                         }
-                    }else if(escolhaBuscaExclusao==2){
-                        printf("Digite o nome: \n");
-                        getchar(); // Limpa o buffer do teclado
-                        fgets(nome, sizeof(nome), stdin); // Lê o nome incluindo espaços em branco
-                        nome[strcspn(nome, "\n")] = '\0'; 
-                        resultado=buscar(nomeAluno, matriculaAluno,contQuantidadeAlunos,nome,escolhaBuscaExclusao);
-                        if(resultado==-1){
-                            printf("Aluno não encontrado no banco de dados. Por favor verifique as informacoes.\n");
-                        }else{  
-                            printf("Matricula %s: %s, data de nascimento: %s, curso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
-                            contQuantidadeAlunos = excluir(nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno,resultado,contQuantidadeAlunos);
-                        }
+                    }else{
+                        printf("Opcao invalida!Por favor tente novamente\n");
                     }
+                    
                 break;
                 case 4:
                     printf("\nAlunos registrados:\n");
@@ -125,42 +93,23 @@ int main(int argc, char *argv[]) {
                 case 5:
                     printf("\nVoce escolheu editar dados dos alunos. Digite 1 para inserir a matricula e 2 para inserir o nome do aluno desejado\n");
                     scanf("%d", &escolhaBuscaExclusao);
-                    if(escolhaBuscaExclusao==1){
-                        printf("Digite a matricula: \n");
-                        getchar(); // Limpa o buffer do teclado
-                        fgets(matricula, sizeof(matricula), stdin); // Lê a matricula incluindo espaços em branco
-                        matricula[strcspn(matricula, "\n")] = '\0';
-                        resultado=buscar(nomeAluno, matriculaAluno,contQuantidadeAlunos,matricula, escolhaBuscaExclusao);
+                    resultado=EntradaDadosBusca(escolhaBuscaExclusao,nomeAluno,matriculaAluno,contQuantidadeAlunos,nascimentoAluno,cursoAluno);
+                    if(escolhaBuscaExclusao==1 || escolhaBuscaExclusao==2){
                         if(resultado==-1){
-                            printf("Aluno não encontrado");
+                            printf("Aluno não encontrado no banco de dados. Por favor verifique as informacoes\n");
                         }else{
-                            printf("Matricula %s: %s, data de nascimento: %s, curso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
-                            printf("1: Nome.\n2: Data de nascimento.\n3: Curso do aluno.\nO que deseja editar: ");
-                            scanf("%d", &dadoEditar);
-                            getchar();
-                            editar(dadoEditar,resultado, nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno);
-                            printf("Registro editado com sucesso!");
-                            printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);	
-                        }
-                    }else if(escolhaBuscaExclusao==2){
-                        printf("Digite o nome: \n");
-                        getchar(); // Limpa o buffer do teclado
-                        fgets(nome, sizeof(nome), stdin); // Lê o nome incluindo espaços em branco
-                        nome[strcspn(nome, "\n")] = '\0';
-                        resultado=buscar(nomeAluno, matriculaAluno,contQuantidadeAlunos,nome, escolhaBuscaExclusao);
-                        if(resultado==-1){
-                            printf("Aluno não encontrado");
-                        }else{
-                            printf("Matricula %s: %s, data de nascimento: %s, curso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
-                            printf("1: Nome.\n2: Data de nascimento.\n3: Curso do aluno.\nO que deseja editar: ");
-                            scanf("%d", &dadoEditar);
-                            getchar();
-                            editar(dadoEditar,resultado, nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno);
-                            printf("Registro editado com sucesso!");
-                            printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);	
+                        printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
+
+                        
+                        printf("1: Nome.\n2: Data de nascimento.\n3: Curso do aluno.\nO que deseja editar: ");
+                        scanf("%d", &dadoEditar);
+                        getchar();
+                        editar(dadoEditar,resultado, nomeAluno, matriculaAluno, nascimentoAluno, cursoAluno);
+                        printf("\nRegistro editado com sucesso!\n");
+                        printf("Matricula %s: %s\nData de nascimento: %s\nCurso: %s\n\n", matriculaAluno[resultado], nomeAluno[resultado],nascimentoAluno[resultado],cursoAluno[resultado]);
                         }
                     }else{
-                        printf("Opcao invalida");
+                        printf("Opcao invalida!Por favor tente novamente\n");
                     }
                     break;	
                     case 6:
@@ -239,6 +188,8 @@ void AuxRegistrar(char *tipoDado, char **nomeAluno, char **matriculaAluno, char 
     tipoDado="curso";
     registrar(cursoAluno, tipoDado, contQuantidadeAlunos);
 }
+
+
 char *registrar(char **dado, char *tipoDado, int indice) {
     char temp[100];
 	printf("%s do novo aluno: ", tipoDado);
@@ -253,6 +204,30 @@ char *registrar(char **dado, char *tipoDado, int indice) {
     strcpy(dado[indice], temp); // Copia a string para o índice indicado
     return dado[indice];
 }
+
+
+int EntradaDadosBusca(int escolhaBuscaExclusao, char **nomeAluno,char **matriculaAluno,int contQuantidadeAlunos,char **nascimentoAluno,char **cursoAluno){
+    int indice=0;
+    char matricula[15]; // Variável para armazenar a matrícula do aluno
+    char nome[30]; //   Variável para armazenar o nome do aluno
+    if(escolhaBuscaExclusao==1){
+        printf("Digite a matricula: \n");
+        getchar(); // Limpa o buffer do teclado
+        fgets(matricula, sizeof(matricula), stdin); // Lê a matricula incluindo espaços em branco
+        matricula[strcspn(matricula, "\n")] = '\0';// Remove o caractere de nova linha
+        indice = buscar(nomeAluno, matriculaAluno, contQuantidadeAlunos, matricula, escolhaBuscaExclusao);
+        return indice;
+    }else if(escolhaBuscaExclusao==2){
+        printf("Digite o nome: \n");
+        getchar(); // Limpa o buffer do teclado
+        fgets(nome, sizeof(nome), stdin); // Lê o nome incluindo espaços em branco
+        nome[strcspn(nome, "\n")] = '\0'; // Remove o caractere de nova linha
+        indice = buscar(nomeAluno, matriculaAluno, contQuantidadeAlunos, nome, escolhaBuscaExclusao);
+        return indice;
+        }
+    }
+
+
 
 int buscar(char **dadoNome, char **dadoMatricula,int indice, char *dadoDaBusca, int escolhaNomeMatricula){
 int i = 0;  
@@ -306,14 +281,11 @@ char* editar(int dadoEditar, int indice,char **dadoNome, char **dadoMatricula, c
 		case 3:
     		printf("Digite o novo curso do aluno: ");
 			fgets(temp, sizeof(temp),stdin);
-			
 			length = strlen(temp);
 			if (temp[length - 1]=='\n'){
 				temp[length -1] = '\0';
 			}
-	
-    		strcpy(dadoCurso[indice],temp);
-    		
+    		strcpy(dadoCurso[indice],temp);   		
     		return (dadoCurso[indice]);
     	break;
 	}
@@ -338,7 +310,6 @@ int excluir(char **nomeAluno, char **matriculaAluno, char **nascimentoAluno, cha
         free(matriculaAluno[contQuantidadeAlunos-1]);
         free(nascimentoAluno[contQuantidadeAlunos-1]);
         free(cursoAluno[contQuantidadeAlunos-1]);
-
         // Decrementa o contador de quantidade de alunos
         contQuantidadeAlunos--;
 
