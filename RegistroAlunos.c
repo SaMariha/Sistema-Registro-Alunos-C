@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
     //menu de opções
 	do{
-    printf("Digite a opcao que voce deseja: \n1: Registrar novos alunos.\n2: Buscar aluno pelo nome.\n3: Excluir algum aluno pelo nome ou matricula.\n4: Listar todos os alunos.\n5: Editar dados do aluno pelo nome ou matricula.\n6: Sair.\n");
+    printf("Digite a opcao que voce deseja: \n1: Registrar novos alunos.\n2: Buscar aluno pelo nome ou matricula.\n3: Excluir algum aluno pelo nome ou matricula.\n4: Listar todos os alunos.\n5: Editar dados do aluno pelo nome ou matricula.\n6: Sair.\n");
     scanf("%d", &servico);
 
 	getchar();
