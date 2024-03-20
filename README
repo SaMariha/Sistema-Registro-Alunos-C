@@ -1,1 +1,17 @@
-lala
+Esse sistema em C foi baseado em um exercício de Registro de Alunos em uma Universidade e exigia os seguintes requisitos:
+
+O programa deveria criar e utiliza uma estrutura de dados para armazenar informações do aluno, como nome, matrícula, curso e data de nascimento.
+O programa deveria oferecer um menu interativo com no mínimo as seguintes opções:
+1. Adicionar novo aluno: Permitir a entrada dos dados do aluno e adicionar o novo registro à estrutura de dados.
+2. Buscar o aluno por nome ou matricula:Solicitar o nome ou matrícula do aluno e buscar o registro correspondente na estrutura de dados. 
+Se o aluno for encontrado, exibir seus dados completos. Caso contrário informar que o aluno não foi encontrado.
+3. Excluir aluno: Solicitar o nome ou matrícula do aluno e exlcuir o registro correspondente da estrutra de dados; 
+4. Listar todos os alunos: Exibir os dados de todos os alunos cadastrados na estrutura de dados.
+5.Editar dados de um aluno: Solicitar o nome ou matrícula do aluno e permitir a edição de seus dados, como nome, curso ou data de nascimento.
+
+Implementações:
+-Utilizar linuagem de programação C.
+-Utilizar uma estrtura de dados adequada para armazenar os dados dos alunos, como uma lista ou um vetor.
+-Implementar de forma modular, utilizando funções separadas para cada tarefa.
+
+Para implementa-lo, utilizei estruturas simples de controle, alocação de memória dinâmica e funções.
