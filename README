@@ -14,4 +14,6 @@ Implementações:
 -Utilizar uma estrtura de dados adequada para armazenar os dados dos alunos, como uma lista ou um vetor.
 -Implementar de forma modular, utilizando funções separadas para cada tarefa.
 
-Para implementa-lo, utilizei estruturas simples de controle, alocação de memória dinâmica e funções.
+Para implementa-lo, utilizei estruturas simples de controle, funções, alocação de memória dinâmica, incluindo ponteiros para ponteiros. As estruturas para armazenar os dados foram arrays que 
+de princípio teria capacidade para 15 alunos. 
+Além disso, foi exercitada a prática de refatoração de código e versionamento.
